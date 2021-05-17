@@ -1,11 +1,22 @@
-import torch
-import torch.nn as nn
+import os
+from training import make_generator
+from training import denorm
+from training import save_image
+from config import *
 
-discriminator = nn.Sequential()
-generator = nn.Sequential()
 
-d_checkpoint = torch.load("./discrimiator.ckpt")
-g_checkpoint = torch.load("./generator.ckpt")
-print(d_checkpoint)
-discriminator.load_state_dict(d_checkpoint['model'])
-generator.load_state_dict(g_checkpoint['model_state_dict'])
+def main():
+    generator = make_generator()
+    generator.to(device)
+    generator.load_state_dict(torch.load('generator.pth'))
+
+    sample_vectors = torch.randn(batch_size, latent_size).to(device)
+    fake_images = generator(sample_vectors)
+    fake_images = fake_images.reshape(fake_images.size(0), 1, 28, 28)
+    fake_fname = "fake_images_testing.png"
+    print(f"\nSaving {fake_fname}\n")
+    save_image(denorm(fake_images), os.path.join(sample_dir, fake_fname), nrow=10)
+
+
+if __name__ == '__main__':
+    main()
