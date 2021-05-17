@@ -131,13 +131,13 @@ def train_model():
                 real_scores.append(real_score.mean().item())
                 fake_scores.append(fake_score.mean().item())
                 print('Epoch [{}/{}], Step [{}/{}], d_loss: {:.4f}, g_loss: {:.4f}, D(x): {:.2f}, D(G(z)): {:.2f}'
-                      .format(epoch, num_epochs, i + 1, total_step, d_loss.item(), g_loss.item(),
+                      .format(epoch+1, num_epochs, i + 1, total_step, d_loss.item(), g_loss.item(),
                               real_score.mean().item(), fake_score.mean().item()))
 
         save_fake_images(epoch + 1, sample_vectors)
 
-    torch.save(generator.state_dict(), 'generator.ckpt')
-    torch.save(discriminator.state_dict(), 'discrimiator.ckpt')
+    torch.save(generator.state_dict(), 'generator.pth')
+    torch.save(discriminator.state_dict(), 'discriminator.pth')
 
 
 # questo salvataggio funge da testing, poichè ad ogni epoca il generatore creerà
@@ -157,7 +157,6 @@ if __name__ == "__main__":
         Normalize(mean=(0.5,), std=(0.5,))
     ]))
     data_loader = DataLoader(dataset=mnist, batch_size=batch_size, shuffle=True)
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print(f"device: {device}")
 
     # ================== Discriminator, Generator e Optimizer ==================#
