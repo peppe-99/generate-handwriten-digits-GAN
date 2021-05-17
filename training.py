@@ -1,19 +1,14 @@
 """https://aakashns.medium.com/generative-adverserial-networks-gans-from-scratch-in-pytorch-ad48256458a7"""
 import os
-import torch
 import torch.nn as nn
-import torchvision
 import matplotlib.pyplot as plt
-import matplotlib.image as mpimg
 from torch.utils.data import DataLoader
 from torchvision.transforms import ToTensor, Normalize, Compose
 from torchvision.datasets import MNIST
 from random import randint
 from config import *
-from IPython.display import Image
 from torchvision.utils import save_image
-from tqdm import tqdm
-from make_gif import make_gif
+from utils import make_gif
 
 
 def denorm(x):
